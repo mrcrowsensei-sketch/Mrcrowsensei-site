@@ -14,8 +14,6 @@
 <meta property="og:description" content="Mr CrowSensei — Professional Minecraft Thumbnail Designer">
 <meta property="og:url" content="https://mrcrowsensei-fx.vercel.app/">
 <meta property="og:image" content="https://mrcrowsensei-fx.vercel.app/banner.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mr CrowSensei — Thumbnail Designer">
 <meta name="twitter:description" content="Mr CrowSensei — Professional Minecraft Thumbnail Designer">
@@ -442,6 +440,25 @@ html[data-theme=light] .cc{background:radial-gradient(ellipse 80% 55% at 50% 75%
 /* v27: opening like the admin panel (panel slides up, bar slides in with it) */
 @keyframes navUp{from{transform:translateX(-50%) translateY(30px)}to{transform:translateX(-50%)}}
 body.opened .nav{animation:navUp 1s cubic-bezier(.16,1,.3,1) .3s both}
+/* v28: trusted-by pill, creator entrance, bigger stats on desktop, footer line fix */
+.trust{display:flex;align-items:center;gap:14px;width:max-content;max-width:100%;margin:10px auto 8px;padding:10px 24px 10px 12px;border-radius:999px;background:rgba(18,14,28,.82);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+html[data-theme=light] .trust{background:rgba(255,255,255,.85);border-color:rgba(40,20,80,.12)}
+.tav{display:flex}
+.tav span{position:relative;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font:800 18px Manrope,system-ui,sans-serif;color:#1a0b1f;border:2px solid #1c1530;box-shadow:0 0 0 1.5px rgba(139,92,246,.55);margin-left:-14px;background-size:cover;background-position:center}
+.tav span:first-child{margin-left:0}
+.ttx small{display:block;font-size:14px;color:var(--mu);line-height:1.2}
+.ttx b{display:block;font:800 19px/1.25 Manrope,system-ui,sans-serif;color:var(--tx)}
+@keyframes avIn{from{opacity:0;transform:translateX(-14px) scale(.6)}}
+@keyframes txIn{from{opacity:0;transform:translateY(10px)}}
+.trust.in .tav span{animation:avIn .7s cubic-bezier(.16,1,.3,1) both}
+.trust.in .tav span:nth-child(1){animation-delay:0.15s}.trust.in .tav span:nth-child(2){animation-delay:0.30s}.trust.in .tav span:nth-child(3){animation-delay:0.45s}.trust.in .tav span:nth-child(4){animation-delay:0.60s}
+.trust.in .ttx{animation:txIn .8s cubic-bezier(.16,1,.3,1) .7s both}
+@keyframes ccIn{from{opacity:0;transform:translateY(28px) scale(.96)}}
+.car.in .cc{animation:ccIn .8s cubic-bezier(.16,1,.3,1) both}
+.car.in .cc:nth-child(1){animation-delay:0.07s}.car.in .cc:nth-child(2){animation-delay:0.14s}.car.in .cc:nth-child(3){animation-delay:0.21s}.car.in .cc:nth-child(4){animation-delay:0.28s}.car.in .cc:nth-child(5){animation-delay:0.35s}.car.in .cc:nth-child(6){animation-delay:0.42s}.car.in .cc:nth-child(7){animation-delay:0.49s}.car.in .cc:nth-child(8){animation-delay:0.56s}
+@media(min-width:900px){.stats{gap:70px}.stats b{font-size:clamp(34px,3.2vw,44px)}.stats span{font-size:12px}}
+.ft-hr.done,[data-a=tag].done::before,[data-a=tag].done::after{animation:none!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){.trust.in .tav span,.trust.in .ttx,.car.in .cc{animation:none}}
 </style>
 </head>
 <body class="ld">
@@ -477,6 +494,7 @@ body.opened .nav{animation:navUp 1s cubic-bezier(.16,1,.3,1) .3s both}
 <section id="clients">
   <div class="tag">Creators</div><h2>Trusted by creators</h2>
   <p class="sub">Real creators who grew their channels with Mr CrowSensei thumbnails. Drag to move, tap to select.</p>
+  <div class="trust"><div class="tav" id="tav"></div><div class="ttx"><small>Trusted by</small><b id="tcnt"></b></div></div>
   <div class="car" id="tk"></div>
   <div class="cnav"><button class="cnb" id="cpv" aria-label="Previous">‹</button><div class="cdots" id="cdots"></div><button class="cnb" id="cnx" aria-label="Next">›</button></div>
 </section>
@@ -585,6 +603,8 @@ document.addEventListener('keydown',function(e){if(!$('vw').classList.contains('
  st.addEventListener('pointercancel',function(){dn=false;$('vi').classList.remove('dr');if(VZ==1){tx=0;tf()}})})();
 /* creators: slow auto-scroll that follows your direction; tap / ‹ › / dots = centre + outline + a bit bigger */
 var CLS=[];for(var c=1;c<=6;c++)CLS.push({h:'ClientName'+c,n:'ClientName'+c,s:'0.00M'});
+(function(){var n=CLS.length,tx=n>=10?Math.floor(n/5)*5+'+':n>=5?'5+':String(n),ix=CLS.map(function(_,i){return i});for(var i=ix.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ix[i];ix[i]=ix[j];ix[j]=t}
+ var el=$('tav');if(!el)return;el.innerHTML=ix.slice(0,4).map(function(k){var c=CLS[k],h=k*43+20;return '<span style="'+(c.pic?'background-image:url('+c.pic+')':'background:hsl('+h+' 80% 62%)')+'">'+(c.pic?'':c.n.charAt(0))+'</span>'}).join('');$('tcnt').textContent=tx+' creators'})();
 var YT='<svg class="ic" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#ff3b3b" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="#ff3b3b"/></svg>';
 function ccard(c,i){var h=i*43+20;return '<div class="cc"><div class="cb" style="background:linear-gradient(135deg,hsl('+h+' 70% 40%),hsl('+(h+50)+' 70% 20%))"></div><div class="ca" style="background:hsl('+h+' 80% 62%)">'+c.n.charAt(0)+'</div><div class="cn">'+c.n+'</div><div class="ch">@'+c.h+'</div><div class="cs">'+YT+c.s+' Subscribers</div><a class="cv" draggable="false" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@'+c.h+'">View Channel</a></div>'}
 (function(){var car=$('tk'),dots=$('cdots'),n=CLS.length,one=CLS.map(ccard).join(''),reps=Math.max(3,Math.ceil(3600/(n*254)));car.innerHTML=new Array(reps+1).join(one);
@@ -632,7 +652,7 @@ function tog(f){bg.classList.toggle('on',f);mn.classList.toggle('on',f);if(f){va
 bg.onclick=function(){tog(!mn.classList.contains('on'))};
 mn.onclick=function(e){if(e.target.closest('a'))tog(false)};
 var SECS=['home','work','clients','about','faq','contact'].map($);
-function spy(){var y=scrollY,vh=innerHeight,cur='home';SECS.forEach(function(s,i){if(!s)return;var line=(i===SECS.length-1)?y+120:y+vh*.5;if(s.offsetTop<=line)cur=s.id});if(y<80)cur='home';if(vh+y>=document.documentElement.scrollHeight-60)cur=SECS[SECS.length-1].id;document.querySelectorAll('.links a,.menu a:not(.mcta)').forEach(function(a){a.classList.toggle('act',a.getAttribute('href')==='#'+cur)});if(window.mvInd)mvInd();if(window.mvMenu)mvMenu()}
+function spy(){var y=scrollY,vh=innerHeight,cur='home';SECS.forEach(function(s,i){if(!s)return;var line=(i===SECS.length-1)?y+120:y+vh*.5;if(s.offsetTop<=line)cur=s.id});if(y<80)cur='home';if(vh+y>=document.documentElement.scrollHeight-60)cur=SECS[SECS.length-1].id;if(typeof LOCK!=='undefined'&&LOCK)cur=LOCK;document.querySelectorAll('.links a,.menu a:not(.mcta)').forEach(function(a){a.classList.toggle('act',a.getAttribute('href')==='#'+cur)});if(window.mvInd)mvInd();if(window.mvMenu)mvMenu()}
 var spq=0;addEventListener('scroll',function(){if(!spq){spq=1;requestAnimationFrame(function(){spq=0;spy()})}},{passive:true});spy();
 /* stats count-up + blur-in fade (once per element, every visit) */
 function countUp(){document.querySelectorAll('.stats b').forEach(function(el,i){var n=parseFloat(el.dataset.n),s=el.dataset.s||'',t0=performance.now(),d=2000+i*300;(function f(t){var k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=Math.round(n*e)+s;if(k<1)requestAnimationFrame(f)})(t0)})}
@@ -656,7 +676,7 @@ setTheme(document.documentElement.dataset.theme==='light'?'light':'dark',false);
  document.addEventListener('mouseover',function(e){if(Date.now()-lt<800)return;var b=e.target.closest(S);if(b&&!b.contains(e.relatedTarget)){b.classList.add('pr');sh(b)}});
  document.addEventListener('mouseout',function(e){if(Date.now()-lt<800)return;var b=e.target.closest(S);if(b&&!b.contains(e.relatedTarget)){b.classList.remove('pr');sh(b)}})})();
 /* site name + logo (the admin panel will fill these from the database) */
-var SITE={name:'Mr CrowSensei',logo:''};
+var SITE={name:'Mr CrowSensei',logo:'',avail:true,dot:''};
 (function(){[].forEach.call(document.querySelectorAll('.sn,#ftl b'),function(e){e.textContent=SITE.name});if(SITE.logo)[].forEach.call(document.querySelectorAll('.lg0,.lcr,.avs,.clg'),function(e){e.innerHTML='<img src="'+SITE.logo+'" alt="" style="width:100%;height:100%;object-fit:cover">'})})();
 [].forEach.call(document.querySelectorAll('.logo,#ftl'),function(a){a.onclick=function(e){e.preventDefault();tog(false);scrollTo({top:0,behavior:'smooth'})}});
 /* background: tiny particles drifting upward */
@@ -665,6 +685,13 @@ if(FX.particles&&!matchMedia('(prefers-reduced-motion:reduce)').matches){var cv=
  for(var i=0;i<N;i++)P.push({x:Math.random(),y:Math.random(),r:.5+Math.random()*1.1,s:.008+Math.random()*.02,w:Math.random()*6.28,a:.15+Math.random()*.3});
  var pl=performance.now();(function fr(t){if(window.__pz){pl=t;requestAnimationFrame(fr);return}var dt=Math.min(.05,(t-pl)/1000);pl=t;cx.clearRect(0,0,PW,PH);for(var i=0;i<N;i++){var p=P[i];p.y-=p.s*dt;if(p.y<-.02){p.y=1.02;p.x=Math.random()}cx.fillStyle='rgba('+PR+','+p.a*(.6+.4*Math.sin(t/900+p.w))+')';cx.beginPath();cx.arc(p.x*PW,p.y*PH,p.r*DP,0,6.283);cx.fill()}requestAnimationFrame(fr)})(pl)}
 splitAll();
+/* availability badge, nav click-to-middle, footer line fix */
+(function(){var kk=document.querySelector('.kick');if(!kk)return;if(SITE.avail===false)kk.style.display='none';else if(SITE.dot){var g=kk.querySelector('.gd');if(g)g.style.background=SITE.dot}})();
+var LOCK=null;
+function goTo(id){var el=document.getElementById(id);if(!el)return;var vh=innerHeight,top;if(id==='home')top=0;else{var h=el.offsetHeight,t=el.getBoundingClientRect().top+scrollY;top=h<vh-120?t-(vh-h)/2:t-84}scrollTo({top:Math.max(0,top),behavior:'smooth'})}
+['wheel','touchmove','keydown'].forEach(function(t){addEventListener(t,function(){if(LOCK){LOCK=null;spy()}},{passive:true})});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);if(!id||!document.getElementById(id))return;e.preventDefault();if(typeof tog==='function')tog(false);LOCK=id;goTo(id);spy()});
+document.addEventListener('animationend',function(e){var t=e.target;if(t&&t.classList&&(t.classList.contains('ft-hr')||t.getAttribute('data-a')==='tag'))t.classList.add('done')},true);
 /* arrow shine on click */
 document.addEventListener('click',function(e){var b=e.target.closest('.cnb');if(b){b.classList.remove('sh');void b.offsetWidth;b.classList.add('sh');setTimeout(function(){b.classList.remove('sh')},800)}});
 /* nav pill + still-have-a-question pop */
