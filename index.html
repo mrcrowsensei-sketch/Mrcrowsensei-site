@@ -459,6 +459,14 @@ html[data-theme=light] .trust{background:rgba(255,255,255,.85);border-color:rgba
 @media(min-width:900px){.stats{gap:70px}.stats b{font-size:clamp(34px,3.2vw,44px)}.stats span{font-size:12px}}
 .ft-hr.done,[data-a=tag].done::before,[data-a=tag].done::after{animation:none!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){.trust.in .tav span,.trust.in .ttx,.car.in .cc{animation:none}}
+/* v29 */
+.kick .gd{background:var(--dot,#34d58a)}
+@keyframes gdp{0%,100%{box-shadow:0 0 2px 0 color-mix(in srgb,var(--dot,#34d58a) 90%,transparent)}50%{box-shadow:0 0 14px 5px color-mix(in srgb,var(--dot,#34d58a) 50%,transparent)}}
+.tav span{border:2px solid rgba(255,255,255,.14);box-shadow:-8px 0 16px rgba(0,0,0,.55)}
+html[data-theme=light] .tav span{box-shadow:-6px 0 12px rgba(40,20,80,.25)}
+.ttx b{text-shadow:0 0 14px rgba(167,139,250,.45)}
+html[data-theme=light] .ttx b{text-shadow:none}
+.tav span{border:2px solid rgba(255,255,255,.3)}
 </style>
 </head>
 <body class="ld">
@@ -603,8 +611,8 @@ document.addEventListener('keydown',function(e){if(!$('vw').classList.contains('
  st.addEventListener('pointercancel',function(){dn=false;$('vi').classList.remove('dr');if(VZ==1){tx=0;tf()}})})();
 /* creators: slow auto-scroll that follows your direction; tap / ‹ › / dots = centre + outline + a bit bigger */
 var CLS=[];for(var c=1;c<=6;c++)CLS.push({h:'ClientName'+c,n:'ClientName'+c,s:'0.00M'});
-(function(){var n=CLS.length,tx=n>=10?Math.floor(n/5)*5+'+':n>=5?'5+':String(n),ix=CLS.map(function(_,i){return i});for(var i=ix.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ix[i];ix[i]=ix[j];ix[j]=t}
- var el=$('tav');if(!el)return;el.innerHTML=ix.slice(0,4).map(function(k){var c=CLS[k],h=k*43+20;return '<span style="'+(c.pic?'background-image:url('+c.pic+')':'background:hsl('+h+' 80% 62%)')+'">'+(c.pic?'':c.n.charAt(0))+'</span>'}).join('');$('tcnt').textContent=tx+' creators'})();
+function buildTrust(){var n=CLS.length,tx=n>=10?Math.floor(n/5)*5+'+':n>=5?'5+':String(n),ix=CLS.map(function(_,i){return i});for(var i=ix.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ix[i];ix[i]=ix[j];ix[j]=t}
+ var el=$('tav');if(!el)return;el.innerHTML=ix.slice(0,4).map(function(k){var c=CLS[k],h=k*43+20;return '<span style="'+(c.pic?'background-image:url('+c.pic+')':'background:hsl('+h+' 80% 62%)')+'">'+(c.pic?'':c.n.charAt(0))+'</span>'}).join('');$('tcnt').textContent=tx+' '+(SITE.tc||'creators');var ts=document.querySelector('.ttx small');if(ts)ts.textContent=SITE.tb||'Trusted by';if(SITE.trust===false){var tr=document.querySelector('.trust');if(tr)tr.style.display='none'}}
 var YT='<svg class="ic" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#ff3b3b" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="#ff3b3b"/></svg>';
 function ccard(c,i){var h=i*43+20;return '<div class="cc"><div class="cb" style="background:linear-gradient(135deg,hsl('+h+' 70% 40%),hsl('+(h+50)+' 70% 20%))"></div><div class="ca" style="background:hsl('+h+' 80% 62%)">'+c.n.charAt(0)+'</div><div class="cn">'+c.n+'</div><div class="ch">@'+c.h+'</div><div class="cs">'+YT+c.s+' Subscribers</div><a class="cv" draggable="false" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/@'+c.h+'">View Channel</a></div>'}
 (function(){var car=$('tk'),dots=$('cdots'),n=CLS.length,one=CLS.map(ccard).join(''),reps=Math.max(3,Math.ceil(3600/(n*254)));car.innerHTML=new Array(reps+1).join(one);
@@ -676,7 +684,7 @@ setTheme(document.documentElement.dataset.theme==='light'?'light':'dark',false);
  document.addEventListener('mouseover',function(e){if(Date.now()-lt<800)return;var b=e.target.closest(S);if(b&&!b.contains(e.relatedTarget)){b.classList.add('pr');sh(b)}});
  document.addEventListener('mouseout',function(e){if(Date.now()-lt<800)return;var b=e.target.closest(S);if(b&&!b.contains(e.relatedTarget)){b.classList.remove('pr');sh(b)}})})();
 /* site name + logo (the admin panel will fill these from the database) */
-var SITE={name:'Mr CrowSensei',logo:'',avail:true,dot:''};
+var SITE={name:'Mr CrowSensei',logo:'',avail:true,dot:'',avt:'Available for commissions',trust:true,tb:'Trusted by',tc:'creators'};
 (function(){[].forEach.call(document.querySelectorAll('.sn,#ftl b'),function(e){e.textContent=SITE.name});if(SITE.logo)[].forEach.call(document.querySelectorAll('.lg0,.lcr,.avs,.clg'),function(e){e.innerHTML='<img src="'+SITE.logo+'" alt="" style="width:100%;height:100%;object-fit:cover">'})})();
 [].forEach.call(document.querySelectorAll('.logo,#ftl'),function(a){a.onclick=function(e){e.preventDefault();tog(false);scrollTo({top:0,behavior:'smooth'})}});
 /* background: tiny particles drifting upward */
@@ -686,7 +694,8 @@ if(FX.particles&&!matchMedia('(prefers-reduced-motion:reduce)').matches){var cv=
  var pl=performance.now();(function fr(t){if(window.__pz){pl=t;requestAnimationFrame(fr);return}var dt=Math.min(.05,(t-pl)/1000);pl=t;cx.clearRect(0,0,PW,PH);for(var i=0;i<N;i++){var p=P[i];p.y-=p.s*dt;if(p.y<-.02){p.y=1.02;p.x=Math.random()}cx.fillStyle='rgba('+PR+','+p.a*(.6+.4*Math.sin(t/900+p.w))+')';cx.beginPath();cx.arc(p.x*PW,p.y*PH,p.r*DP,0,6.283);cx.fill()}requestAnimationFrame(fr)})(pl)}
 splitAll();
 /* availability badge, nav click-to-middle, footer line fix */
-(function(){var kk=document.querySelector('.kick');if(!kk)return;if(SITE.avail===false)kk.style.display='none';else if(SITE.dot){var g=kk.querySelector('.gd');if(g)g.style.background=SITE.dot}})();
+buildTrust();
+(function(){var kk=document.querySelector('.kick');if(!kk)return;if(SITE.avail===false){kk.style.display='none';return}if(SITE.dot)kk.style.setProperty('--dot',SITE.dot);if(SITE.avt){var tn=[].filter.call(kk.childNodes,function(n){return n.nodeType===3}).pop();if(tn)tn.nodeValue=SITE.avt}})();
 var LOCK=null;
 function goTo(id){var el=document.getElementById(id);if(!el)return;var vh=innerHeight,top;if(id==='home')top=0;else{var h=el.offsetHeight,t=el.getBoundingClientRect().top+scrollY;top=h<vh-120?t-(vh-h)/2:t-84}scrollTo({top:Math.max(0,top),behavior:'smooth'})}
 ['wheel','touchmove','keydown'].forEach(function(t){addEventListener(t,function(){if(LOCK){LOCK=null;spy()}},{passive:true})});
