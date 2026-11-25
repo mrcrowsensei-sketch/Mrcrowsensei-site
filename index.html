@@ -551,7 +551,7 @@ var $=function(i){return document.getElementById(i)};
 var SITE={name:'Mr CrowSensei',logo:'',avail:true,dot:'',avt:'Available for commissions',trust:true,tb:'Trusted by',tc:'creators',order:['work','clients','about','faq','contact']};
 var PR=(document.documentElement.dataset.theme==='light')?'124,77,255':'190,170,255';
 var FX={particles:true,shuffle:true,live:false,autoScroll:true,speed:2};
-var SB={url:'PASTE_SUPABASE_URL_HERE',key:'PASTE_SUPABASE_KEY_HERE'}; /* <- paste your Supabase URL + Publishable key here */
+var SB={url:'https://pfkmgzajjdbbxljlgsug.supabase.co',key:'sb_publishable_7jtZIX_LWRT2-XWlRGYsgQ_Sa8wmXDj'}; /* <- paste your Supabase URL + Publishable key here */
 var DB=null;(function(){try{if(!/^https?:/.test(SB.url))return;var x=new XMLHttpRequest();x.open('GET',SB.url+'/rest/v1/site?id=eq.1&select=data',false);x.setRequestHeader('apikey',SB.key);x.setRequestHeader('Authorization','Bearer '+SB.key);x.send();if(x.status==200){var d=JSON.parse(x.responseText)[0];d=d&&d.data;if(d&&d.S)DB=d}}catch(e){}})();
 var TRACK={url:/^https?:/.test(SB.url)?SB.url:'',key:SB.key}; /* Supabase URL + anon key: filled during setup, counts portfolio views */
 (function(){try{if(!TRACK.url||sessionStorage.getItem('cs_v'))return;sessionStorage.setItem('cs_v','1');var id=localStorage.getItem('cs_id');if(!id){id=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Math.random()).slice(2)+Date.now();localStorage.setItem('cs_id',id)}fetch(TRACK.url+'/rest/v1/views',{method:'POST',headers:{'Content-Type':'application/json',apikey:TRACK.key,Authorization:'Bearer '+TRACK.key,Prefer:'return=minimal'},body:JSON.stringify({visitor:id,ref:document.referrer||null})})}catch(e){}})();
