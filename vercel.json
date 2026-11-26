@@ -3,5 +3,10 @@
     { "src": "/", "dest": "/api/index" },
     { "handle": "filesystem" }
   ],
-  "functions": { "api/index.js": { "includeFiles": "{index.html,config.js}" } }
+  "functions": {
+    "api/index.js": { "includeFiles": "{index.html,config.js}" },
+    "api/channel.js": { "includeFiles": "config.js" },
+    "api/sync.js": { "includeFiles": "config.js" }
+  },
+  "crons": [{ "path": "/api/sync", "schedule": "0 3 * * *" }]
 }
