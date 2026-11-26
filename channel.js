@@ -1,11 +1,10 @@
 // Looks up a YouTube channel for the admin panel. The YouTube key stays on the server (Vercel env var YT_API_KEY).
-const fs = require('fs'), path = require('path');
+const SB_URL = 'https://pfkmgzajjdbbxljlgsug.supabase.co', SB_KEY = 'sb_publishable_7jtZIX_LWRT2-XWlRGYsgQ_Sa8wmXDj';
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-store');
   try {
-    const cfg = fs.readFileSync(path.join(process.cwd(), 'config.js'), 'utf8');
-    const url = (cfg.match(/url:\s*'([^']+)'/) || [])[1], key = (cfg.match(/key:\s*'([^']+)'/) || [])[1];
+    const url = SB_URL, key = SB_KEY;
     const tok = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
     const who = await fetch(url + '/auth/v1/user', { headers: { apikey: key, Authorization: 'Bearer ' + tok } });
     if (!tok || !who.ok) return res.status(401).send(JSON.stringify({ error: 'Please log in again' }));

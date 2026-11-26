@@ -1,11 +1,10 @@
 // Runs once a day (Vercel cron): refreshes every creator's subscribers, name and photo in your database.
-const fs = require('fs'), path = require('path');
+const SB_URL = 'https://pfkmgzajjdbbxljlgsug.supabase.co', SB_KEY = 'sb_publishable_7jtZIX_LWRT2-XWlRGYsgQ_Sa8wmXDj';
 module.exports = async (req, res) => {
   try {
     const secret = process.env.CRON_SECRET;
     if (secret && req.headers.authorization !== 'Bearer ' + secret) return res.status(401).json({ error: 'unauthorized' });
-    const cfg = fs.readFileSync(path.join(process.cwd(), 'config.js'), 'utf8');
-    const url = (cfg.match(/url:\s*'([^']+)'/) || [])[1];
+    const url = SB_URL;
     const sk = process.env.SUPABASE_SERVICE_KEY, yt = process.env.YT_API_KEY;
     if (!sk || !yt) return res.status(200).json({ error: 'Set SUPABASE_SERVICE_KEY and YT_API_KEY in Vercel' });
     const H = { apikey: sk, Authorization: 'Bearer ' + sk, 'Content-Type': 'application/json' };
