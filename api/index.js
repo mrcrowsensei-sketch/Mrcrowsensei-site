@@ -11,11 +11,12 @@ module.exports = async (req, res) => {
       if (key.indexOf('sb_') !== 0) headers.Authorization = 'Bearer ' + key;
       const r = await fetch(url + '/rest/v1/site?id=eq.1&select=data', { headers });
       const d = r.ok ? ((await r.json())[0] || {}).data : null;
-      if (d && d.B) {
-        const B = d.B, E = d.E || {};
+      if (d) {
+        const B = d.B || {}, E = d.E || {};
         const set = (re, val) => { html = html.replace(re, (m, a, b) => a + esc(val) + b); };
         if (B.ogt) { set(/(<title>)[^<]*(<\/title>)/, B.ogt); set(/(<meta property="og:title" content=")[^"]*(")/, B.ogt); set(/(<meta name="twitter:title" content=")[^"]*(")/, B.ogt); }
         if (B.ogd) { set(/(<meta property="og:description" content=")[^"]*(")/, B.ogd); set(/(<meta name="twitter:description" content=")[^"]*(")/, B.ogd); set(/(<meta name="description" content=")[^"]*(")/, B.ogd); }
+        if (E.bn === false) { html = html.replace(/<meta[^>]*(og:image|twitter:image)[^>]*>\s*/g, '').replace(/(<meta name="twitter:card" content=")[^"]*(")/, '$1summary$2'); }
         if (B.banner && E.bn !== false) { set(/(<meta property="og:image" content=")[^"]*(")/, B.banner); set(/(<meta name="twitter:image" content=")[^"]*(")/, B.banner); }
       }
     }
