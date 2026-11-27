@@ -4,7 +4,7 @@
 <script src="config.js"></script>
 <script>try{var LS=localStorage,css='',pl='',U=function(x){return 'url("'+String(x).replace(/"/g,'%22')+'")'},OKU=function(x){return /^https?:\/\/[^\s"'<>]+$/.test(x||'')?x:''},ld=OKU(LS.getItem('cs_ld')),lg=OKU(LS.getItem('cs_lg')),fl=OKU(LS.getItem('cs_fl'));
 if(ld){css+='.lcr svg{display:none}.lcr{background:'+U(ld)+' center/cover!important}';pl+='<link rel="preload" as="image" href="'+ld+'">'}
-if(lg){css+='.lg0 svg,.clg svg{display:none}.lg0,.clg{background:'+U(lg)+' center/cover!important}';pl+='<link rel="preload" as="image" href="'+lg+'">'}
+if(lg){css+='.lg0 svg,.clg svg{display:none}.lg0,.clg{background:'+U(lg)+' center/cover!important}';pl+='<link rel="preload" as="image" href="'+lg+'"><link rel="icon" href="'+lg+'"><link rel="apple-touch-icon" href="'+lg+'">'}
 if(fl){css+='.ft-top .lg0 svg{display:none}.ft-top .lg0{background:'+U(fl)+' center/cover!important}';pl+='<link rel="preload" as="image" href="'+fl+'">'}
 if(LS.getItem('cs_nb')==='1')document.documentElement.classList.add('nb');
 if(navigator.webdriver||/HeadlessChrome|Lighthouse|Vercel|bot|crawl|spider|screenshot/i.test(navigator.userAgent))document.documentElement.classList.add('nol');
@@ -607,7 +607,7 @@ if(DB){try{(function(){var S=DB.S||{},q=function(x){return document.querySelecto
  var ldg=Bm.load||Bm.logo;if(ldg)qa('.lcr').forEach(function(e){img(e,ldg)});
  try{var LS2=localStorage,sv=function(k,v){if(/^https?:\/\//.test(v||'')||k=='cs_nb'&&v)LS2.setItem(k,v);else LS2.removeItem(k)};sv('cs_ld',ldg);sv('cs_lg',Bm.logo);sv('cs_fl',Bm.flogo||Bm.logo);sv('cs_nb',E.blur===false?'1':'')}catch(e){}
  document.documentElement.classList.toggle('nb',E.blur===false);
- if(Bm.logo){qa('.lg0,.clg').forEach(function(e){img(e,Bm.logo)});var fi=q('link[rel~=icon]');if(fi)fi.href=Bm.logo}
+ if(Bm.logo){qa('.lg0,.clg').forEach(function(e){img(e,Bm.logo)});var fi=q('link[rel~=icon]');if(!fi){fi=document.createElement('link');fi.rel='icon';document.head.appendChild(fi)}fi.removeAttribute('type');fi.href=Bm.logo;var ap=q('link[rel=apple-touch-icon]');if(!ap){ap=document.createElement('link');ap.rel='apple-touch-icon';document.head.appendChild(ap)}ap.href=Bm.logo}
  if(Bm.flogo)qa('.ft-top .lg0').forEach(function(e){img(e,Bm.flogo)});
  if(Bm.avatar){var av=q('.avs');if(av)img(av,Bm.avatar)}
  var hide=function(e){e.style.display='none'},cl2=Bm.clogo||Bm.logo;
