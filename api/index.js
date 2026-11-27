@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
       if (d) {
         const B = d.B || {}, E = d.E || {};
         const set = (re, val) => { html = html.replace(re, (m, a, b) => a + esc(val) + b); };
+        if (/^https?:\/\/[^\s"'<>]+$/.test(B.logo || '')) { html = html.replace('</head>', '<link rel="icon" href="' + esc(B.logo) + '">\n<link rel="apple-touch-icon" href="' + esc(B.logo) + '">\n</head>'); }
         if (B.ogt) { set(/(<title>)[^<]*(<\/title>)/, B.ogt); set(/(<meta property="og:title" content=")[^"]*(")/, B.ogt); set(/(<meta name="twitter:title" content=")[^"]*(")/, B.ogt); }
         if (B.ogd) { set(/(<meta property="og:description" content=")[^"]*(")/, B.ogd); set(/(<meta name="twitter:description" content=")[^"]*(")/, B.ogd); set(/(<meta name="description" content=")[^"]*(")/, B.ogd); }
         if (E.bn === false) { html = html.replace(/<meta[^>]*(og:image|twitter:image)[^>]*>\s*/g, '').replace(/(<meta name="twitter:card" content=")[^"]*(")/, '$1summary$2'); }
