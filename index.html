@@ -725,7 +725,7 @@ function ccard(c,i){var h=i*43+20;return '<div class="cc"><div class="cb" style=
  car.addEventListener('touchstart',function(e){var t=e.touches[0];tx0=t.clientX;ty0=t.clientY;hz=false;pos=car.scrollLeft},{passive:true});
  car.addEventListener('touchmove',function(e){if(hz)return;var t=e.touches[0],dx=Math.abs(t.clientX-tx0);if(dx>6&&dx>Math.abs(t.clientY-ty0)){hz=true;user=true;glide=null;clearTimeout(idle)}},{passive:true});
  car.addEventListener('touchend',function(){if(hz)resume(450)},{passive:true});car.addEventListener('touchcancel',function(){if(hz)resume(450)},{passive:true});
- car.addEventListener('wheel',function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){user=true;glide=null;resume(450)}},{passive:true});
+ car.addEventListener('wheel',function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY)*1.5&&Math.abs(e.deltaX)>6){user=true;glide=null;resume(450)}},{passive:true});
  car.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;dn=true;user=true;glide=null;mvd=false;clearTimeout(idle);sx=e.clientX;sl=car.scrollLeft;pos=sl;car.classList.add('drag')});
  addEventListener('pointermove',function(e){if(!dn)return;var d=e.clientX-sx;if(Math.abs(d)>5)mvd=true;car.scrollLeft=sl-d});
  addEventListener('pointerup',function(){if(!dn)return;dn=false;car.classList.remove('drag');resume(450)});
@@ -739,7 +739,7 @@ function ccard(c,i){var h=i*43+20;return '<div class="cc"><div class="cb" style=
  new IntersectionObserver(function(en){inView=en[0].isIntersecting},{threshold:0}).observe(car);
  addEventListener('resize',function(){calc();put(cL(n+near()%n))});
  put(cL(n));act();
- (function lp(t){var dt=Math.min(.05,(t-last)/1000);last=t;if(glide)glide(t);else{var go=!user&&!hover&&inView&&!RMc&&FX.autoScroll&&t-lastSc>200;sp=go?Math.min(1,sp+dt*2.2):0;if(go)put(pos+dir*46*[.6,1,1.7][FX.speed-1]*dt*sp*sp*(3-2*sp));wrap()}requestAnimationFrame(lp)})(performance.now())})();
+ (function lp(t){var dt=Math.min(.05,(t-last)/1000);last=t;if(glide)glide(t);else{var ok=!user&&inView&&!RMc&&FX.autoScroll&&t-lastSc>200;sp=!ok?0:(hover?Math.max(0,sp-dt*5):Math.min(1,sp+dt*2.2));if(ok&&sp>0)put(pos+dir*46*[.6,1,1.7][FX.speed-1]*dt*sp*sp*(3-2*sp));wrap()}requestAnimationFrame(lp)})(performance.now())})();
 (function(){var cur=null,tm=null;function off(){if(cur){cur.classList.remove('hv');cur=null}}
  document.addEventListener('touchstart',function(e){var t=e.target.closest&&e.target.closest('.th,.cc');if(!t)return;if(cur&&cur!==t)cur.classList.remove('hv');cur=t;t.classList.add('hv');clearTimeout(tm);tm=setTimeout(off,4000)},{passive:true});
  document.addEventListener('touchend',function(){clearTimeout(tm);tm=setTimeout(off,350)},{passive:true})})();
