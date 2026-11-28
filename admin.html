@@ -740,7 +740,7 @@ html[data-theme=light] #pvv .vb{border-color:rgba(40,20,80,.16);background:rgba(
 #pvv .vd{display:flex;gap:6px;align-items:center}
 #pvv .vd i{width:7px;height:7px;border-radius:7px;background:rgba(128,128,150,.45);cursor:pointer;transition:.3s}
 #pvv .vd i.on{width:22px;background:#a78bfa}
-.pcl,.pcd{transition:border-color .3s ease,box-shadow .3s ease,transform .5s cubic-bezier(.22,1,.36,1);will-change:transform}
+.pcl,.pcd{transition:border-color .3s ease,box-shadow .3s ease,transform .5s cubic-bezier(.22,1,.36,1);}
 html.has #login{display:none!important}
 html.nb .pvx *,html.nb .pvx *::before,html.nb .pvx *::after{filter:none!important}
 #login .lg,#lc .lg{border-radius:50%!important;overflow:hidden}
@@ -789,6 +789,16 @@ html[data-theme=light] .lki{color:#4b3f72}html[data-theme=light] .lki:hover,html
 html[data-theme=light] .lkm{background:linear-gradient(160deg,rgba(255,255,255,.8),rgba(255,255,255,.5));border-color:rgba(255,255,255,.85);box-shadow:0 24px 60px rgba(70,40,140,.25),inset 0 1px 0 #fff}
 html[data-theme=light] .lki{color:#3d3262}html[data-theme=light] .lki:hover{background:rgba(124,77,255,.1)}html[data-theme=light] .lki.on{background:rgba(124,77,255,.18);color:#1b1530}
 .pcd-b.hb::after{display:none}
+/* smoother link menu */
+.lkm{animation:lkin .55s cubic-bezier(.19,1,.22,1) both;transition:opacity .3s}
+.lkm.out{animation:lkout .32s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes lkin{0%{opacity:0;transform:translateY(-14px) scale(.88);filter:blur(10px)}60%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+@keyframes lkout{to{opacity:0;transform:translateY(-10px) scale(.94);filter:blur(6px)}}
+.lki{animation:lkit .6s cubic-bezier(.19,1,.22,1) both;animation-delay:calc(var(--i)*55ms + 90ms);transition:background .3s,color .3s,transform .3s}
+.lki:hover{transform:translateX(3px)}
+.tav span{margin-left:-9px}.tav span:first-child{margin-left:0}
+.tav span:nth-child(1){z-index:4}.tav span:nth-child(2){z-index:3}.tav span:nth-child(3){z-index:2}.tav span:nth-child(4){z-index:1}
+.tav span{background-size:cover!important;background-position:center!important;overflow:hidden}
 </style>
 </head>
 <body>
@@ -837,6 +847,7 @@ var ICO={discord:'<path d="M19.3 5.4A16.6 16.6 0 0 0 15.2 4.1l-.5 1a15.4 15.4 0 
 function ico(u){u=(u||'').toLowerCase();var k='link';if(/discord/.test(u))k='discord';else if(/(^|\/\/|\.)(x|twitter)\.com/.test(u))k='x';else if(/youtu/.test(u))k='youtube';else if(/instagram/.test(u))k='instagram';else if(/t\.me|telegram/.test(u))k='telegram';else if(/wa\.me|whatsapp/.test(u))k='whatsapp';else if(/^mailto:/.test(u))k='mail';return '<svg class="ic" viewBox="0 0 24 24" fill="currentColor">'+ICO[k]+'</svg>'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function T(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(T.x);T.x=setTimeout(function(){t.classList.remove('on')},1900)}
+function eu(u){return String(u).replace(/["'()\s]/g,function(c){return '%'+c.charCodeAt(0).toString(16)})}
 function fm(n){n=+n||0;return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n)}
 var S={badge:'Available for Commissions',title:'Mr CrowSensei',t1:'Your Video Deserves A Thumbnail That',w1:'Whispers',w2:'Roars',desc:'Minecraft thumbnails built to make thumbs stop scrolling and start tapping.',btn1:'View My Work',btn2:'Work With Me',s1:'300+',s2:'40+',s3:'50M+',ptitle:'Featured Thumbnails',psub:'Recent thumbnails crafted for Minecraft creators.',ctitle:'Trusted by creators',csub:'Real creators who grew their channels with Mr CrowSensei thumbnails. Drag to move, tap to select.',atitle:'The mind behind the feathers',aname:'Mr CrowSensei',about:'I design Minecraft thumbnails with a simple rule: if it doesn’t make you curious in one second, it isn’t done.',abtn:'Let’s talk',ftitle:'Quick answers',cotitle:'Ready to make your next video unmissable?',cosub:'Tell me about your channel and I’ll take it from there.',conote:'Usually replies within 24 hours.',site:'Mr CrowSensei',cta:'Let’s Talk',foot:'© 2026 Mr CrowSensei. All rights reserved.'};
 var L={badge:'Hero badge',title:'Name',t1:'Tagline (first part)',w1:'Struck-out word (red line)',w2:'Replacement word',desc:'Description',btn1:'Button 1',btn2:'Button 2',s1:'Stat 1',s2:'Stat 2',s3:'Stat 3',ptitle:'Heading',psub:'Text',ctitle:'Heading',csub:'Text',atitle:'Heading',aname:'Name',about:'About text',abtn:'Button text',ftitle:'Heading',cotitle:'Heading',cosub:'Text',conote:'Note under buttons',site:'Site name',cta:'Navbar button text',foot:'Footer text'};
@@ -867,10 +878,11 @@ function tsel(kt,ku){var v=S[kt]||'';return '<select data-sel="'+kt+'">'+LNK.map
 function hj(k){return String(S[k]||'')+'\u0001'+String(S[k+'c']||'')}
 function lkName(v){if(v==='custom')return 'Custom link';var m={'#home':'Top of the page','#work':S.ptag,'#clients':S.ctag,'#about':S.atag,'#faq':S.ftag,'#contact':S.cotag};return esc(m[v]||'Not set')}
 function bfld(kx,kt,ku){var v=S[kt]||'';return '<div><label class="l">'+L[kx]+'</label><div class="bfr"><input data-k="'+kx+'" value="'+esc(S[kx])+'"><button type="button" class="lkb" data-lk="'+kt+'" title="Where this button goes" aria-label="Choose where this button goes"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg></button></div><small class="lkt">Goes to: <b>'+lkName(v)+'</b></small>'+(v==='custom'?'<input data-k="'+ku+'" value="'+esc(S[ku]||'')+'" placeholder="https://... or #section" style="margin-top:8px">':'')+'</div>'}
-function closeLk(){var m=document.querySelector('.lkm:not(.out)');if(m){m.classList.add('out');setTimeout(function(){m.remove()},190)}}
+var lkT=0;function closeLk(){var m=document.querySelector('.lkm:not(.out)');if(m){m.classList.add('out');setTimeout(function(){m.remove()},320)}}
+addEventListener('scroll',function(){if(Date.now()-lkT>350)closeLk()},{passive:true,capture:true});addEventListener('wheel',function(e){if(!e.target.closest('.lkm'))closeLk()},{passive:true});addEventListener('touchmove',function(e){if(!e.target.closest('.lkm'))closeLk()},{passive:true});addEventListener('resize',closeLk);
 function openLk(btn){closeLk();var kt=btn.dataset.lk,cur=S[kt]||'',items=[['#home','Home'],['#work',S.ptag],['#clients',S.ctag],['#about',S.atag],['#faq',S.ftag],['#contact',S.cotag],['custom','Custom link']],m=document.createElement('div');m.className='lkm';
  m.innerHTML=items.map(function(o){return '<button type="button" class="lki'+(o[0]===cur?' on':'')+'" style="--i:'+items.indexOf(o)+'" data-v="'+o[0]+'"><i class="ln"></i><span>'+esc(o[1])+'</span><i class="ln r"></i></button>'}).join('');
- document.body.appendChild(m);var r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight,x=Math.min(Math.max(8,r.right-w),innerWidth-w-8),y=r.bottom+8;if(y+h>innerHeight-8)y=Math.max(8,r.top-h-8);m.style.left=x+'px';m.style.top=y+'px';
+ document.body.appendChild(m);lkT=Date.now();var r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight,x=Math.min(Math.max(8,r.right-w),innerWidth-w-8),y=r.bottom+8;if(y+h>innerHeight-8)y=Math.max(8,r.top-h-8);m.style.left=x+'px';m.style.top=y+'px';
  m.addEventListener('click',function(e){var b=e.target.closest('.lki');if(!b)return;S[kt]=b.dataset.v;closeLk();render();upd()})}
 document.addEventListener('click',function(e){var b=e.target.closest('.lkb');if(b){e.stopPropagation();openLk(b);return}if(!e.target.closest('.lkm'))closeLk()},true);
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLk()});
@@ -906,12 +918,12 @@ var pcId=0;
 function pvBg(){var l=document.documentElement.dataset.theme==='light';return 'radial-gradient(260px 200px at 90% 0,rgba(139,92,246,.28),transparent 70%),radial-gradient(240px 200px at 0 100%,rgba(255,92,138,.14),transparent 70%),'+(l?C.bl:C.bg)}
 function trustTxt(n){return n>=10?(Math.floor(n/5)*5)+'+':n>=5?'5+':String(n)}
 function trustHtml(){var n=CL.length;if(!n||!E.tr)return '';return '<div class="trust"><div class="tav">'+CL.slice(0,4).map(function(c){var h=(c.id*57+(c.av||0)*23)%360;return '<span style="background:'+(c.pic?'url('+c.pic+') center/cover':'hsl('+h+' 80% 62%)')+'">'+(c.pic?'':esc((c.n||c.h||'?')[0]))+'</span>'}).join('')+'</div><div class="ttx"><small>'+esc(S.tbt)+'</small><b>'+trustTxt(n)+' '+esc(S.tbc)+'</b></div></div>'}
-function clPrev(){var n=CL.length;if(!n)return '<small>Add a creator to see the preview</small>';var card=function(c){var h=(c.id*57+(c.av||0)*23)%360;return '<div class="pcd"><div class="pcd-b'+(c.ban?' hb':'')+'" style="'+(c.ban?"background:url('+encodeURI(c.ban)+') center/cover":'background:linear-gradient(135deg,hsl('+h+' 70% 40%),hsl('+(h+50)+' 70% 20%))')+'"></div><div class="pcd-a" style="background:'+(c.pic?'url('+c.pic+') center/cover':'hsl('+h+' 80% 62%)')+'">'+(c.pic?'':(c.n?esc(c.n[0]):'…'))+'</div><div class="pcd-n">'+esc(c.n||c.h)+'</div><div class="pcd-h">@'+esc(c.h)+'</div><div class="pcd-s">▶ '+(c.n?fm(c.s):'…')+' Subscribers</div><div class="pcd-v">View Channel</div></div>'},one=CL.map(card).join(''),reps=Math.max(3,Math.ceil(1800/(n*272)));return '<div class="pcw"><div class="pcar">'+new Array(reps+1).join(one)+'</div></div><div class="pnav"><button class="pa" id="ppv">‹</button><div class="pdots">'+CL.map(function(){return '<span></span>'}).join('')+'</div><button class="pa" id="pnx">›</button></div>'}
+function clPrev(){var n=CL.length;if(!n)return '<small>Add a creator to see the preview</small>';var card=function(c){var h=(c.id*57+(c.av||0)*23)%360;return '<div class="pcd"><div class="pcd-b'+(c.ban?' hb':'')+'" style="'+(c.ban?"background:url('"+eu(c.ban)+"') center/cover":'background:linear-gradient(135deg,hsl('+h+' 70% 40%),hsl('+(h+50)+' 70% 20%))')+'"></div><div class="pcd-a" style="background:'+(c.pic?'url('+c.pic+') center/cover':'hsl('+h+' 80% 62%)')+'">'+(c.pic?'':(c.n?esc(c.n[0]):'…'))+'</div><div class="pcd-n">'+esc(c.n||c.h)+'</div><div class="pcd-h">@'+esc(c.h)+'</div><div class="pcd-s">▶ '+(c.n?fm(c.s):'…')+' Subscribers</div><div class="pcd-v">View Channel</div></div>'},one=CL.map(card).join(''),reps=Math.max(3,Math.ceil(1800/(n*272)));return '<div class="pcw"><div class="pcar">'+new Array(reps+1).join(one)+'</div></div><div class="pnav"><button class="pa" id="ppv">‹</button><div class="pdots">'+CL.map(function(){return '<span></span>'}).join('')+'</div><button class="pa" id="pnx">›</button></div>'}
 function initPcar(){cancelAnimationFrame(pcId);var car=document.querySelector('.pcar');if(!car||!CL.length)return;var n=CL.length,kids=car.children,dots=document.querySelector('.pdots').children;
  var hov=false,pos=0,dir=1,user=false,exp=null,idle=null,glide=null,lastSc=0,sp=0,selI=null,curI=-1,last=performance.now();
  function Wd(){return kids[n].offsetLeft-kids[0].offsetLeft}
  function cL(i){var k=kids[i];return k.offsetLeft+k.offsetWidth/2-car.clientWidth/2}
- function put(v){pos=v;exp=v;var f=Math.floor(v);car.scrollLeft=f;car.style.setProperty('--fx',(v-f).toFixed(3));if(!car.classList.contains('fxsp'))car.classList.add('fxsp')}
+ var SUBPX=(window.devicePixelRatio||1)<1.5;function put(v){pos=v;exp=v;if(SUBPX){var f=Math.floor(v);car.scrollLeft=f;car.style.setProperty('--fx',(v-f).toFixed(3));if(!car.classList.contains('fxsp'))car.classList.add('fxsp')}else car.scrollLeft=v}
  function sel(i){selI=i;for(var k=0;k<kids.length;k++)kids[k].classList.toggle('pselect',k===i)}
  function wrap(){var m=cL(n),w=Wd();if(pos<m-w/2){put(pos+w);if(selI!=null)selNow(selI+n)}else if(pos>m+w/2){put(pos-w);if(selI!=null)selNow(selI-n)}}
  function selNow(i){var o=kids[selI],nn=kids[i];selI=i;[o,nn].forEach(function(e){if(e)e.style.transition='none'});if(o)o.classList.remove('pselect');if(nn)nn.classList.add('pselect');void car.offsetWidth;[o,nn].forEach(function(e){if(e)e.style.transition=''})}
