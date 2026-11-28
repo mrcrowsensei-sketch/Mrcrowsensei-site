@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     const ids = data.CL.map((c) => c.cid).filter(Boolean);
     const map = {};
     for (let i = 0; i < ids.length; i += 50) {
-      const y = await (await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&maxResults=50&key=' + yt + '&id=' + ids.slice(i, i + 50).join(','))).json();
+      const y = await (await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,brandingSettings&maxResults=50&key=' + yt + '&id=' + ids.slice(i, i + 50).join(','))).json();
       (y.items || []).forEach((it) => { map[it.id] = it; });
     }
     let n = 0;
@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
       if (!st.hiddenSubscriberCount) c.s = +st.subscriberCount || 0;
       if (sn.title) c.n = sn.title;
       const pic = (p.medium || p.default || {}).url; if (pic) c.pic = pic;
+      const bu = ((it.brandingSettings || {}).image || {}).bannerExternalUrl; c.ban = bu ? (bu.indexOf('=') < 0 ? bu + '=w1280-fcrop64=1,32b75a57cd48a5a8-k-c0xffffffff-no-nd-rj' : bu) : '';
       c.t = 'auto-updated'; n++;
     });
     await fetch(url + '/rest/v1/site?id=eq.1', { method: 'PATCH', headers: Object.assign({ Prefer: 'return=minimal' }, H), body: JSON.stringify({ data, updated_at: new Date().toISOString() }) });
